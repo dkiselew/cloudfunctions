@@ -1,0 +1,6 @@
+{
+  "name": "moment-js-example",
+  "dependencies": {
+    "moment": "^2.24.0"
+  }
+}
