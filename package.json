@@ -14,9 +14,13 @@
     "nuxt": "^3.4.3"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.1.9",
     "@heroicons/vue": "^2.0.18",
+    "codemirror": "^6.0.1",
+    "lowdb": "^6.0.1",
     "node-shell-parser": "^0.2.1",
     "notiwind": "^2.0.1",
-    "shelljs": "^0.8.5"
+    "shelljs": "^0.8.5",
+    "vue-codemirror": "^6.1.1"
   }
 }

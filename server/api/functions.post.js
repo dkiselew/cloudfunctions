@@ -1,107 +1,64 @@
 import shell from 'shelljs';
-import shellParser from 'node-shell-parser';
 import getFunctionsList from '~/api/getFunctionsList';
+import { getDefaultTemplate, getFunctionFileName, getDependenciesFileName, pathIsValid, envIsValid } from '~/api/functions';
 
 const username = 'user';
-const project = 'myproject';
 
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
+// Create new function
 export default defineEventHandler(async (event) => {  
-  const { path, language } = await readBody(event);  
-  const name = project + '-' + path.replace(/\//g, '-');
+  const { path, env } = await readBody(event);    
 
+  // generate function name as random alphanumeric string of length 6
+  const name = Math.random().toString(36).substring(2, 8);  
+
+  // check if this function name already exists
   const functions = getFunctionsList();  
   if (functions.find((func) => func.name === name)) {
     throw createError({
       statusCode: 400,
       statusMessage: 'function already exists',
-    })
+    });
   }
 
-  const code = getDefaultTemplate(language);
-  const environment = getEnvironmentName(language);
-  const extension = getFileExtension(language);
+  if (!pathIsValid(path)) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Invalid path',
+    });
+  }
+
+  if (!envIsValid(env)) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Invalid environment name',
+    });
+  }
+
+  const code = getDefaultTemplate(env);
+  const functionFileName = getFunctionFileName(env);
+  const dependenciesFileName = getDependenciesFileName(env);
   
-  const workspacePath = `${shell.pwd().stdout}/workspace/${username}/${name}`;
-  const codePath = `${workspacePath}/index.${extension}`;
+  const workspacePath = `${shell.pwd().stdout}/workspace/${username}`;
+  const codePath = `${workspacePath}/${name}/${functionFileName}`;
+  const dependenciesPath = `${workspacePath}/${name}/${dependenciesFileName}`;
 
   // cleanup workspace directory 
-  shell.rm('-rf', workspacePath);
+  shell.rm('-rf', `${workspacePath}/${name}`);
   // create workspace directory 
-  shell.mkdir('-p', workspacePath);  
+  shell.mkdir('-p', `${workspacePath}/${name}`);  
   // create function file
   shell.ShellString(code).to(codePath);
-  // create package.json file in workspace directory  
-  shell.ShellString('{}').to(`${workspacePath}/package.json`);
+  // create dependencies file
+  shell.ShellString('{}').to(dependenciesPath);
   // zip workspace directory
-  shell.exec(`zip -jr ${workspacePath}/${name}.zip ${workspacePath}/`);
+  shell.exec(`zip -jr ${workspacePath}/${name}.zip ${workspacePath}/${name}`);
 
-  const createStdout = shell.exec(`fission function create --name ${name} --sourcearchive ${workspacePath}/${name}.zip --env ${environment}`).stdout;    
+  const createStdout = shell.exec(`fission function create --name ${name} --sourcearchive ${workspacePath}/${name}.zip --env ${env}`).stdout;    
   const triggersStdout = shell.exec(`fission route create --function ${name} --url ${path} --method GET --method POST --method PUT --method DELETE --method HEAD`).stdout;  
     
   return {
-    createStdout,
-    triggersStdout,
+    name,
+    path,
+    env,
   };  
 });
-
-//zip -jr moment.zip moment/
-//fission fn create --name moment --sourcearchive moment.zip --env node
-
-function getEnvironmentName(language) {
-  switch (language) {
-    case 'node':
-      return 'node';
-    case 'python':
-      return 'python';
-    case 'php':
-      return 'php';  
-  }
-}
-
-function getFileExtension(language) {
-  switch (language) {
-    case 'node':
-      return 'js';
-    case 'python':
-      return 'py';
-    case 'php':
-      return 'php';  
-  }
-}
-
-function getDefaultTemplate(language) {
-  switch (language) {
-    case 'node':
-      return getNodeDefaultTemplate();
-    case 'python':
-      return getPythonDefaultTemplate();
-    case 'php':
-      return getPhpDefaultTemplate();  
-  }
-}
-
-function getNodeDefaultTemplate() {
-  return `module.exports = function(context) {
-  return {
-    status: 200,
-    body: {
-      text: 'Hello, world!'
-    }
-  };
-};`;
-}
-
-function getPhpDefaultTemplate() {
-  return `<?php ` + "\n" + `function main() {` + "\n" + `  return "Hello, world!";` + "\n" + `}` + "\n" + `?>`;
-}
-
-function getPythonDefaultTemplate() {
-  return `def main():
-  return "Hello, world!"`;
-}

@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       functions: [],
-      loading: false,
+      loading: false,      
     }
   },
   mounted() {    
@@ -54,7 +54,7 @@ export default {
       this.loading = true;
       this.functions = await $fetch('/api/functions');       
       this.loading = false;
-    }
+    },    
   }
 }
 </script>
