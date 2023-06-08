@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   const name = Math.random().toString(36).substring(2, 8);  
 
   // check if this function name already exists
-  const functions = getFunctionsList();  
+  const functions = await getFunctionsList();  
   if (functions.find((func) => func.name === name)) {
     throw createError({
       statusCode: 400,

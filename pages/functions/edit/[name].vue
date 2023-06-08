@@ -4,7 +4,7 @@
       <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
     </button>    
     <div v-if="func" class="flex justify-end gap-x-4">
-      <a :href="`${appConfig.functionsDomain}${func.url}`" target="_blank" class="p-4 bg-gray-100 rounded-lg hover:bg-gray-200 text-sm">
+      <a :href="`${appConfig.functionsDomain}${func.path}`" target="_blank" class="p-4 bg-gray-100 rounded-lg hover:bg-gray-200 text-sm">
         Preview
       </a>
       <button v-if="!saving" @click="save" type="button" class="inline-flex items-center rounded-md bg-white px-4 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">              

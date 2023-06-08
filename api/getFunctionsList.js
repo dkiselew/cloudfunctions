@@ -1,22 +1,22 @@
-import shell from 'shelljs';
+import asyncExec from './asyncExec';
 import shellParser from 'node-shell-parser';
 
-export default () => {  
-  const functionsStdout = shell.exec('fission function list', { silent: true }).stdout;
-  const functions = shellParser(functionsStdout);
-
-  // TODO: run in parallel
-  const triggersStdout = shell.exec('fission httptrigger list', { silent: true }).stdout;
-  const triggers = shellParser(triggersStdout);
+export default async () => {      
+  const results = await Promise.all([
+    asyncExec('fission function list', { silent: true }),
+    asyncExec('fission httptrigger list', { silent: true }),
+  ]);  
+   
+  const functions = shellParser(results[0]);
+  const triggers = shellParser(results[1]);  
 
   return functions.map((func) => {
     const trigger = triggers.find((trigger) => trigger['FUNCTION(s)'] === func.NAME);
     return {
       name: func.NAME,
       env: func.ENV,
-      method: trigger ? trigger.METHOD : null,
-      url: trigger ? trigger.URL : null,
-      path: trigger ? trigger.PATH : null,
+      method: trigger ? trigger.METHOD : null,      
+      path: trigger ? trigger.URL : null,
       triggerName: trigger ? trigger.NAME : null,      
     };
   });  

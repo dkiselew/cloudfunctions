@@ -8,10 +8,10 @@
       <ul class="mb-6">
         <li v-for="func in functions" :key="func.name" class="mb-2 flex gap-x-2">
           <NuxtLink :to="`/functions/edit/${func.name}`" class="w-1/4 p-4 rounded-lg bg-white ring-1 ring-inset ring-gray-300 shadow-sm flex justify-between hover:bg-gray-50">
-            <div>{{ func.url }} </div>
+            <div>{{ func.path }} </div>
             <div class="text-slate-400">{{ func.env }}</div>            
           </NuxtLink>
-          <a :href="`${appConfig.functionsDomain}${func.url}`" target="_blank" class="p-4 bg-gray-100 rounded-lg hover:bg-gray-200">
+          <a :href="`${appConfig.functionsDomain}${func.path}`" target="_blank" class="p-4 bg-gray-100 rounded-lg hover:bg-gray-200">
             <ArrowTopRightOnSquareIcon class="h-5 w-5" aria-hidden="true" /></a>
         </li>                
       </ul>

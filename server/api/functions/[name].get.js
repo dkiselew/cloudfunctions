@@ -8,7 +8,7 @@ const project = 'myproject';
 
 export default defineEventHandler(async (event) => {    
   const name = event.context.params.name;
-  const functions = getFunctionsList();
+  const functions = await getFunctionsList();
   const func = functions.find((func) => func.name === name);
   if (!func) {
     throw createError({
