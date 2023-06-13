@@ -1,5 +1,3 @@
-import { exec, ExecOptions } from 'shelljs';
-
 import shell from 'shelljs';
 
 export default function asyncExec(command, options = {}) {

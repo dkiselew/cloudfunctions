@@ -1,9 +1,9 @@
 <template>    
   <div class="flex h-screen">
     <!-- Navigation -->
-    <div class="flex flex-col bg-gray-200 w-1/6">
+    <div class="flex flex-col bg-gray-100 w-1/6">
       <div class="p-4">
-        <h2 class="text-xl font-bold">Magic</h2>
+        <h2 class="text-xl font-bold">Project</h2>
       </div>
       <nav class="flex-grow">
         <ul class="flex flex-col space-y-2 p-4">

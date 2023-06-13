@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
   // Quick check for function name
   // TODO: add more checks
-  if (name.test(/^[a-zA-Z0-9]{6}$/)) {
+  if (!name.match(/^[a-zA-Z0-9]{6}$/)) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Invalid function name',
