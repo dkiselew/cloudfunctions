@@ -9,15 +9,11 @@
       
 
       <!-- Navigation -->
-      <div>
-        <FunctionToolbar :saving="saving" :functionUrl="functionUrl" @save="save">
-          
-            <FunctionTabs @selected="(tab) => this.tab = tab" :tab="tab" class="inline-flex" />      
-          
+      <div class="mb-4">
+        <FunctionToolbar :saving="saving" :functionUrl="functionUrl" @save="save">          
+          <FunctionTabs @selected="(tab) => this.tab = tab" :tab="tab" class="inline-flex" />                
         </FunctionToolbar>        
-      </div>        
-
-      
+      </div>              
 
       <!-- Code -->
       <div v-show="tab === 'code'" class="grow" style="min-height: 0; overflow-y: scroll;">      
@@ -37,21 +33,25 @@
       <FunctionPlayground 
         v-show="tab === 'run'" 
         :functionUrl="functionUrl"        
-        :saving="saving"        
+        :saving="saving" 
+        @executed="$refs.logs.refresh()"       
       />
 
       <FunctionLogs 
+        ref="logs"
         v-show="tab === 'logs'" 
         :functionName="func.name"        
       />
 
       <FunctionDependencies
         v-show="tab === 'dependencies'"         
+        v-model:dependencies="form.dependencies"
       />
 
       <FunctionSettings 
         v-show="tab === 'settings'" 
         v-model:path="form.path"
+        :name="func.name"
       />
 
     </template>    

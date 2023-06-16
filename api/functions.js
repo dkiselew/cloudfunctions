@@ -35,6 +35,9 @@ export function getNodeDefaultTemplate() {
   return `module.exports = function(context) {
   return {
     status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
     body: {
       text: 'Hello, world!'
     }

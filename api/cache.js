@@ -1,3 +1,5 @@
+// TODO: replace with Nitro Cache
+
 const functions = {};
 
 export const setFunctionsCache = (project, value) => {

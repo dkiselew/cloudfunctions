@@ -55,6 +55,9 @@ export default defineEventHandler(async (event) => {
 
   const createStdout = shell.exec(`fission function create --name ${name} --sourcearchive ${workspacePath}/${name}.zip --env ${env}`).stdout;    
   const triggersStdout = shell.exec(`fission route create --function ${name} --url ${path} --method GET --method POST --method PUT --method DELETE --method HEAD`).stdout;  
+
+  // Cleanup local archive
+  shell.rm(`${workspacePath}/${name}.zip`);    
     
   return {
     name,

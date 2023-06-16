@@ -24,7 +24,7 @@
     </div>
     
     <!-- Main Content -->
-    <div class="flex-grow bg-white p-8">      
+    <div class="flex-grow bg-white p-8" style="min-width: 0">      
       <!-- Add your main content here -->
       <slot />
     </div>

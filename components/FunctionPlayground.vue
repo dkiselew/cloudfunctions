@@ -55,6 +55,7 @@ export default {
       this.loading = true;
       this.response = await $fetch(this.url);    
       this.loading = false;
+      this.$emit('executed');
     },
   }
 }

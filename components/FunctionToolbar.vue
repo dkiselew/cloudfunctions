@@ -8,7 +8,7 @@
       <a :href="functionUrl" target="_blank" class="inline-flex items-center rounded-md bg-white px-4 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
         Preview
       </a>
-      <button v-if="!saving" @click="$emit('save')" type="button" class="inline-flex items-center rounded-md bg-white px-4 py-3 text-sm font-semibold  shadow-sm  text-white bg-blue-600 hover:bg-blue-700">              
+      <button v-if="!saving" @click="$emit('save')" type="button" class="inline-flex items-center rounded-md px-4 py-3 text-sm font-semibold  shadow-sm  text-white bg-blue-600 hover:bg-blue-700">              
           Save      
       </button>    
       <button v-if="saving" disabled type="button" class="inline-flex items-center rounded-md bg-white px-4 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">

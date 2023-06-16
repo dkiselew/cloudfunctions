@@ -41,8 +41,8 @@ export default defineEventHandler(async (event) => {
 
   const createStdout = shell.exec(`fission function update --name ${name} --sourcearchive ${workspacePath}/${name}.zip`).stdout;    
 
-  // Cleanup
-  //shell.exec(`rm ${workspacePath}/${name}.zip`);
+  // Cleanup local archive
+  shell.rm(`${workspacePath}/${name}.zip`);    
 
   // Update path if needed
   if (func.path !== path) {    
