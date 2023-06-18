@@ -77,8 +77,10 @@ import FunctionDependencies from '~/components/FunctionDependencies.vue';
 export default {
   setup() {
     const appConfig = useAppConfig();
+    const toast = useToast();
     return { 
-      appConfig
+      appConfig,
+      toast,
      }
   },
   components: {
@@ -137,20 +139,11 @@ export default {
         await $fetch(`/api/functions/${this.$route.params.name}`, {
           method: 'post',
           body: this.form,
-        });
+        });        
         this.updateFunctionFromForm();
-
-        this.$notify({
-          group: "success",
-          title: "Done",
-          text: "Function saved"
-        }, 5000);                        
-      } catch (e) {
-        this.$notify({
-          group: "error",
-          title: "Error",
-          text: "Function hasn't been saved."
-        }, 5000);
+        this.toast.add({ title: "Function saved", icon: 'i-heroicons-check-circle' });
+      } catch (e) {        
+        this.toast.add({ title: "Function hasn't been saved", icon: 'i-heroicons-x-circle', color: 'red' });
         console.log(e);
       } finally {
         this.saving = false;  

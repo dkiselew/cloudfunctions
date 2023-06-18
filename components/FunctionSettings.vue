@@ -45,6 +45,12 @@
 
 <script>
 export default {
+  setup() {    
+    const toast = useToast();
+    return {       
+      toast,
+     }
+  },
   props: {
     path: {
       type: String,
@@ -69,19 +75,11 @@ export default {
       try {
         this.loading = true;
         await $fetch(`/api/functions/${this.name}`, { method: 'DELETE' });
-        this.$notify({
-          group: "success",
-          title: "Done",
-          text: "Function deleted"
-        }, 5000);        
+        this.toast.add({ title: "Function deleted", icon: 'i-heroicons-check-circle' });
         this.$router.push('/functions');
         this.loading = false;
       } catch (e) {
-        this.$notify({
-          group: "error",
-          title: "Error",
-          text: e.message
-        }, 5000);
+        this.toast.add({ title: "Function hasn't been saved", icon: 'i-heroicons-x-circle', color: 'red' });
       } finally {
         this.$refs.deleteModal.close();
       }

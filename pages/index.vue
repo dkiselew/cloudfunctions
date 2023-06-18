@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { SparklesIcon } from '@heroicons/vue/24/outline'
+import { SparklesIcon } from '@heroicons/vue/24/outline';
 
 export default {
   components: {

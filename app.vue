@@ -1,16 +1,6 @@
 <template>    
   <NuxtLayout>
-    <NuxtPage />
-    <ToastNotifications />  
+    <NuxtPage />    
+    <UNotifications />
   </NuxtLayout>
 </template>
-
-<script>
-import ToastNotifications from '~/components/ToastNotifications.vue'
-
-export default {
-  components: {
-    ToastNotifications
-  }
-}
-</script>

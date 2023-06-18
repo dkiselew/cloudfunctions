@@ -53,6 +53,12 @@ export default {
     ArrowRightIcon,
     Spinner,
   },
+  setup() {    
+    const toast = useToast();
+    return {       
+      toast,
+     }
+  },
   data() {
     return {
       form: {
@@ -67,18 +73,10 @@ export default {
       this.loading = true;
       try {
         const func = await $fetch('/api/functions', { method: 'post', body: this.form });         
-        this.$notify({
-          group: "success",
-          title: "Done",
-          text: "Function created"
-        }, 5000);
+        this.toast.add({ title: "Function created", icon: 'i-heroicons-check-circle' });
         this.$router.push(`/functions/edit/${func.name}`);
       } catch (e) {
-        this.$notify({
-          group: "error",
-          title: "Error",
-          text: "Function could not be created."
-        }, 5000);
+        this.toast.add({ title: "Function hasn't been saved", icon: 'i-heroicons-x-circle', color: 'red' });
         console.log(e);
       } finally {
         this.loading = false;        
