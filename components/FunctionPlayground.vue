@@ -19,7 +19,7 @@
         Loading...
       </button>
     </div>        
-    <div class="text-xs font-mono mb-6" style="white-space: pre; overflow: scroll;">
+    <div class="text-xs font-mono mb-6" style="white-space: pre; overflow: auto;">
       {{ response !== '' ? response : 'Response is empty' }}
     </div>              
   </div>

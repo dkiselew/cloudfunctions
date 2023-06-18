@@ -65,8 +65,7 @@ export default {
     showDeleteModal() {
       this.$refs.deleteModal.showModal();
     },
-    async deleteFunction() {      
-      this.$refs.deleteModal.close();      
+    async deleteFunction() {            
       try {
         this.loading = true;
         await $fetch(`/api/functions/${this.name}`, { method: 'DELETE' });
@@ -74,7 +73,7 @@ export default {
           group: "success",
           title: "Done",
           text: "Function deleted"
-        }, 5000);
+        }, 5000);        
         this.$router.push('/functions');
         this.loading = false;
       } catch (e) {
@@ -83,6 +82,8 @@ export default {
           title: "Error",
           text: e.message
         }, 5000);
+      } finally {
+        this.$refs.deleteModal.close();
       }
     }
   }

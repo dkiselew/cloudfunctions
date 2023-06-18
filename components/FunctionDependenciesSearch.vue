@@ -7,17 +7,19 @@
       v-model="searchTerm"
       @input="handleInput"
       @focus="isDropdownOpen = true"
-      @blur="isDropdownOpen = false"      
+      @blur="onBlur"      
       @keydown.escape="isDropdownOpen = false"
       class="w-full px-10 py-2 text-gray-800 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
       placeholder="Search and add package..."
-    />
-    <div v-show="isLoading" class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-      <Spinner />
-    </div>
+    />    
 
     <div v-if="isDropdownOpen" class="absolute w-full mt-2 bg-white rounded-md shadow-lg">
-      <ul>
+      <ul v-show="isLoading">
+        <li v-for="i in 5" class="px-4 py-2">
+          <div class="w-1/4 bg-gray-200 rounded-md dark:bg-gray-700 animate-pulse">&nbsp;</div>
+        </li>
+      </ul>
+      <ul v-if="!isLoading">
         <li v-for="result in results" :key="result.id" @click="selectResult(result)" class="px-4 py-2 cursor-pointer hover:bg-gray-100">
           {{ result.name }} <span class="text-gray-400">({{ result.latest_release_number }})</span>
         </li>
@@ -63,26 +65,24 @@ export default {
         this.isDropdownOpen = false;
       } else {
         const debouncedSearch = debounce(() => {        
+          console.log('fetch...');
           this.fetchResults();
         });
         debouncedSearch();
         this.isDropdownOpen = true;
       }
     },
-    selectResult(result) {
+    selectResult(result) {      
       this.searchTerm = '';
-      this.isDropdownOpen = false;
+      this.isDropdownOpen = false;      
       this.$emit('select', result);
     },    
-  },
-  // watch: {
-  //   searchTerm(newTerm) {
-  //     // Fetch results whenever the search term changes
-  //     if (newTerm.length >= 3) {
-  //       debounce(this.fetchResults());
-  //     }
-  //   },
-  // },
+    onBlur() {
+      setTimeout(() => {
+        this.isDropdownOpen = false
+      }, 200);      
+    }
+  },  
 };
 </script>
 

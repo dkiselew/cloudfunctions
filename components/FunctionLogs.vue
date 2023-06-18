@@ -11,7 +11,7 @@
       </button>
     </div>        
     <div style="min-width: 0" class="h-full">
-      <div class="text-xs font-mono mb-6" style="white-space: pre; overflow: scroll; ">
+      <div class="text-xs font-mono mb-6" style="white-space: pre; overflow: auto; ">
         {{ logs ? logs : 'Nothing to show yet...' }}
       </div>              
     </div>

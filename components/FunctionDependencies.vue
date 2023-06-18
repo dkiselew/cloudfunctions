@@ -35,11 +35,16 @@ export default {
   emits: ['update:dependencies'],
   methods: {
     add(dependency) {
-      const object = JSON.parse(this.text);
-      object.dependencies[dependency.name] = dependency.latest_release_number;
+      const object = JSON.parse(this.text);      
+      object.dependencies[dependency.name] = `^${dependency.latest_release_number}`;
       this.text = JSON.stringify(object, null, 2);
       this.$emit('update:dependencies', this.text);
     },
+  },
+  watch: {
+    dependencies() {
+      this.text = this.dependencies;
+    }
   }
 }
 </script>
