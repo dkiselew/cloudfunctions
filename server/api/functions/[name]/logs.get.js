@@ -5,6 +5,7 @@ import shellParser from 'node-shell-parser';
  * Function logs
  */
 export default defineEventHandler(async (event) => {     
+  const namespace = 'default';
   const name = event.context.params.name;  
 
   // Quick check for function name
@@ -16,7 +17,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const output = shell.exec(`fission function logs --name ${name} --recordcount=100`, { silent: true }).stdout;
+  const output = shell.exec(`fission function logs --name ${name} --recordcount=100 --namespace ${namespace}`, { silent: true }).stdout;
   //const logs = shellParser(output);
   
   if (output.startsWith('Warning:')) {

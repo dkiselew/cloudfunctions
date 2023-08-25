@@ -2,13 +2,14 @@ import asyncExec from './asyncExec';
 import shellParser from 'node-shell-parser';
 
 export default async () => {      
+  const namespace = 'default';
   const results = await Promise.all([
-    asyncExec('fission function list', { silent: true }),
-    asyncExec('fission httptrigger list', { silent: true }),
+    asyncExec(`fission function list --namespace ${namespace}`, { silent: true }),
+    asyncExec(`fission httptrigger list --namespace ${namespace}`, { silent: true }),
   ]);  
    
   const functions = shellParser(results[0]);
-  const triggers = shellParser(results[1]);  
+  const triggers = shellParser(results[1]);    
 
   return functions.map((func) => {
     const trigger = triggers.find((trigger) => trigger['FUNCTION(s)'] === func.NAME);

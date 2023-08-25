@@ -6,6 +6,7 @@ const username = 'user';
 
 // Create new function
 export default defineEventHandler(async (event) => {  
+  const namespace = 'default';
   const { path, env } = await readBody(event);    
 
   // generate function name as random alphanumeric string of length 6
@@ -53,8 +54,8 @@ export default defineEventHandler(async (event) => {
   // zip workspace directory
   shell.exec(`zip -jr ${workspacePath}/${name}.zip ${workspacePath}/${name}`);
 
-  const createStdout = shell.exec(`fission function create --name ${name} --sourcearchive ${workspacePath}/${name}.zip --env ${env}`).stdout;    
-  const triggersStdout = shell.exec(`fission route create --function ${name} --url ${path} --method GET --method POST --method PUT --method DELETE --method HEAD`).stdout;  
+  const createStdout = shell.exec(`fission function create --name ${name} --sourcearchive ${workspacePath}/${name}.zip --env ${env} --namespace ${namespace}`).stdout;    
+  const triggersStdout = shell.exec(`fission route create --function ${name} --url ${path} --method GET --method POST --method PUT --method DELETE --method HEAD --namespace ${namespace}`).stdout;  
 
   // Cleanup local archive
   shell.rm(`${workspacePath}/${name}.zip`);    

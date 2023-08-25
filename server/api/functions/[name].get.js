@@ -7,9 +7,11 @@ const username = 'user';
 const project = 'myproject';
 
 export default defineEventHandler(async (event) => {    
+  const namespace = 'default';
   const name = event.context.params.name;
-  const functions = await getFunctionsList();
+  const functions = await getFunctionsList();  
   const func = functions.find((func) => func.name === name);
+  console.log(func);
   if (!func) {
     throw createError({
       statusCode: 404,
@@ -37,7 +39,7 @@ export default defineEventHandler(async (event) => {
       });
     }  
 
-    shell.exec(`fission archive download --id ${latestArchiveRecord.archive} -o ${workspacePath}/${latestArchiveRecord.archive}`);
+    shell.exec(`fission archive download --id ${latestArchiveRecord.archive} -o ${workspacePath}/${latestArchiveRecord.archive} --namespace ${namespace}`);
     shell.exec(`unzip -o ${workspacePath}/${latestArchiveRecord.archive} -d ${workspacePath}/${name}`);
     shell.exec(`rm ${workspacePath}/${latestArchiveRecord.archive}`);
   }

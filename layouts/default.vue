@@ -1,5 +1,5 @@
 <template>    
-  <div class="flex h-screen">
+  <div class="flex h-full h-screen">
     <!-- Navigation -->
     <div class="flex flex-col bg-gray-100 w-1/6">
       <div class="p-4">
@@ -8,10 +8,16 @@
       <nav class="flex-grow">
         <ul class="flex flex-col space-y-2 p-4">
           <li>
-            <a href="/functions" class="flex items-center py-2 px-4 rounded-md hover:bg-gray-300 bg-gray-300">              
+            <NuxtLink to="/functions" active-class="bg-gray-300" class="flex items-center py-2 px-4 rounded-md hover:bg-gray-300">              
               <BoltIcon class="h-6 w-6 mr-2" />
               <span>Functions</span>
-            </a>
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/database" active-class="bg-gray-300" class="flex items-center py-2 px-4 rounded-md hover:bg-gray-300">              
+              <CircleStackIcon class="h-6 w-6 mr-2" />
+              <span>Database</span>
+            </NuxtLink>
           </li>
           <li>
             <a href="#" class="flex items-center py-2 px-4 rounded-md hover:bg-gray-300">
@@ -21,6 +27,7 @@
           </li>
         </ul>
       </nav>
+      <div class="p-4 text-gray-300">v1</div>        
     </div>
     
     <!-- Main Content -->
@@ -32,12 +39,13 @@
 </template>
 
 <script>
-import { AdjustmentsHorizontalIcon, BoltIcon } from '@heroicons/vue/24/outline'
+import { AdjustmentsHorizontalIcon, BoltIcon, CircleStackIcon } from '@heroicons/vue/24/outline'
 
 export default {
   components: {
     AdjustmentsHorizontalIcon,
     BoltIcon,
+    CircleStackIcon,
   },
   data() {
     return {  

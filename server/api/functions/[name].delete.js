@@ -5,6 +5,7 @@ const username = 'user';
 
 // Delete existing function
 export default defineEventHandler(async (event) => {    
+  const namespace = 'default';
   const name = event.context.params.name;
 
   const functions = await getFunctionsList();  
@@ -19,8 +20,8 @@ export default defineEventHandler(async (event) => {
   const workspacePath = `${shell.pwd().stdout}/workspace/${username}`;
   const codePath = `${workspacePath}/${name}`;  
 
-  shell.exec(`fission httptrigger delete --name ${func.triggerName}`).stdout;      
-  shell.exec(`fission function delete --name ${name}`).stdout;
+  shell.exec(`fission httptrigger delete --name ${func.triggerName} --namespace ${namespace}`).stdout;      
+  shell.exec(`fission function delete --name ${name} --namespace ${namespace}`).stdout;
 
   // delete code path folder recursively
   shell.rm('-rf', codePath);  

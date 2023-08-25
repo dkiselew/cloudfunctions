@@ -6,6 +6,7 @@ const username = 'user';
 
 // Update existing function
 export default defineEventHandler(async (event) => {  
+  const namespace = 'default';
   const { path, code, dependencies } = await readBody(event); 
   const name = event.context.params.name;
 
@@ -39,14 +40,14 @@ export default defineEventHandler(async (event) => {
   // zip workspace directory
   shell.exec(`zip -jr ${workspacePath}/${name}.zip ${workspacePath}/${name}/`);
 
-  const createStdout = shell.exec(`fission function update --name ${name} --sourcearchive ${workspacePath}/${name}.zip`).stdout;    
+  const createStdout = shell.exec(`fission function update --name ${name} --sourcearchive ${workspacePath}/${name}.zip --namespace ${namespace}`).stdout;    
 
   // Cleanup local archive
   shell.rm(`${workspacePath}/${name}.zip`);    
 
   // Update path if needed
   if (func.path !== path) {    
-    const triggersStdout = shell.exec(`fission httptrigger update --name ${func.triggerName} --url ${path}`).stdout;      
+    const triggersStdout = shell.exec(`fission httptrigger update --name ${func.triggerName} --url ${path} --namespace ${namespace}`).stdout;      
   }    
     
   return {
