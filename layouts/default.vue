@@ -20,10 +20,10 @@
             </NuxtLink>
           </li>
           <li>
-            <a href="#" class="flex items-center py-2 px-4 rounded-md hover:bg-gray-300">
+            <NuxtLink to="/settings" active-class="bg-gray-300" class="flex items-center py-2 px-4 rounded-md hover:bg-gray-300">
               <AdjustmentsHorizontalIcon class="h-6 w-6 mr-2" />
               <span>Settings</span>
-            </a>
+            </NuxtLink>
           </li>
         </ul>
       </nav>

@@ -19,7 +19,8 @@
         Loading...
       </button>
     </div>        
-    <div class="text-xs font-mono mb-6" style="white-space: pre; overflow: auto;">
+    <div class="text-xs font-mono mb-6" :class="{ 'text-red-500': error }" style="white-space: pre; overflow: auto;">
+      
       {{ response !== '' ? response : 'Response is empty' }}
     </div>              
   </div>
@@ -47,15 +48,41 @@ export default {
       url: this.functionUrl,
       response: null,
       loading: false,
+      error: null,
     }
   },
   methods: {
     async exec() {      
       this.response = null;
       this.loading = true;
-      this.response = await $fetch(this.url);    
-      this.loading = false;
-      this.$emit('executed');
+      this.error = null;
+      try {
+        this.response = await $fetch(this.url, {
+          onRequestError: async ({ request, options, error }) => {
+            // Log error
+            console.log("[fetch request error]", request, error);
+            this.error = true;
+            this.response = error;
+          },
+          onResponseError: async ({ request, response, options }) => {
+            // Log error
+            console.log(
+              "[fetch response error]",
+              request,
+              response.status,
+              response.body
+            );
+            this.error = true;
+            this.response = error;
+          },
+        });    
+      } catch (e) {
+        //this.response = e.message;
+        console.log(e.message);
+      } finally {
+        this.loading = false;
+        this.$emit('executed');
+      }      
     },
   }
 }
