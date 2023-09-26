@@ -1,7 +1,10 @@
 <template>
   <div>
     <h1 class="text-2xl font-bold mb-4">Database</h1>
-    <DatabaseDashboard />
+    <div class="flex">
+      <DatabaseTables class="w-32 mr-6" />
+      <DatabaseDashboard class="flex-grow" />
+    </div>    
   </div>
 </template>
 
