@@ -1,3 +1,6 @@
+import shell from 'shelljs';
+import fs from 'fs';
+
 export function getFunctionFileName(env) {
   switch (env) {
     case 'node':
@@ -5,7 +8,7 @@ export function getFunctionFileName(env) {
     case 'python':
       return 'main.py';
     case 'php':
-      return 'index.php';  
+      return 'index.php';
   }
 }
 
@@ -16,7 +19,7 @@ export function getDependenciesFileName(env) {
     case 'python':
       return 'requirements.txt';
     case 'php':
-      return 'composer.json';  
+      return 'composer.json';
   }
 }
 
@@ -27,7 +30,7 @@ export function getDefaultTemplate(env) {
     case 'python':
       return getPythonDefaultTemplate();
     case 'php':
-      return getPhpDefaultTemplate();  
+      return getPhpDefaultTemplate();
   }
 }
 
@@ -57,7 +60,7 @@ export function getPythonDefaultTemplate() {
 /**
  * Check if path is valid url path string (includes only letters, numbers, dashes, slashes)
  */
-export function pathIsValid(path) {  
+export function pathIsValid(path) {
   return /^\/[a-zA-Z0-9\-\/]+$/.test(path);
 }
 
@@ -66,4 +69,38 @@ export function pathIsValid(path) {
  */
 export function envIsValid(env) {
   return ['node', 'python', 'php'].includes(env);
+}
+
+/**
+ * Get function source from archive
+ */
+export function downloadFunctionSource(name, workspacePath) {
+  const functionDefinition = getFunctionDefinition(name);
+  if (functionDefinition) {
+    const packageDefinition = getPackageDefinition(functionDefinition.spec.package.packageref.name);
+    if (packageDefinition) {
+      return downloadSourceArchive(packageDefinition, workspacePath);
+    }
+  }
+}
+
+function getFunctionDefinition(name) {
+  const result = shell.exec(`kubectl get function.fission.io/${name} --namespace=default -o json`).stdout;
+  return JSON.parse(result);
+}
+
+function getPackageDefinition(name) {
+  const result = shell.exec(`kubectl get packages.fission.io/${name} --namespace=default -o json`).stdout;
+  return JSON.parse(result);
+}
+
+function downloadSourceArchive(packageDefinition, workspacePath) {
+  if (packageDefinition.spec.source.type !== 'literal') {
+    throw new Error('Source type is not literal and must be downloaded');
+  }
+   const buffer = Buffer.from(packageDefinition.spec.source.literal, 'base64');
+   const filename = `${workspacePath}/myarchive.zip`
+
+   fs.writeFileSync(filename, buffer);
+   return filename;
 }

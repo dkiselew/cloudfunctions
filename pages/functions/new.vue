@@ -22,12 +22,49 @@
         </li>
         <li>
           <input v-model="form.env" disabled type="radio" id="php" name="env" value="php" class="hidden peer">
-          <label for="php" class="inline-flex items-center justify-between w-full p-4 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-indigo-600 peer-checked:text-indigo-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 shadow-sm">
+          <label for="php" class="inline-flex items-center justify-between w-full p-4 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-indigo-600 peer-checked:text-indigo-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 shadow-sm text-gray-300">
               PHP                
+          </label>
+        </li>
+        <li>
+          <input v-model="form.env" disabled type="radio" id="python" name="env" value="python" class="hidden peer">
+          <label for="python" class="inline-flex items-center justify-between w-full p-4 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-indigo-600 peer-checked:text-indigo-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 shadow-sm text-gray-300">
+              Python                
           </label>
         </li>
       </ul>
     </div>    
+
+    <div class="sm:col-span-4 mb-6">
+      <label for="env" class="block text-sm font-medium leading-6 text-gray-900">Template</label>
+      <ul class="grid w-full gap-6 md:grid-cols-2 mt-2">
+        <li>
+          <input v-model="form.template" type="radio" id="database-get" name="template" value="database-get" class="hidden peer" required>
+          <label for="database-get" class="inline-flex items-center justify-between w-full p-4 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-indigo-600 peer-checked:text-indigo-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 shadow-sm">                           
+              Blank
+          </label>
+        </li>
+        <li>
+          <input v-model="form.template" type="radio" id="database-get" name="template" value="database-get" class="hidden peer" required>
+          <label for="database-get" class="inline-flex items-center justify-between w-full p-4 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-indigo-600 peer-checked:text-indigo-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 shadow-sm">                           
+              Get data from database
+          </label>
+        </li>
+        <li>
+          <input v-model="form.template" disabled type="radio" id="upload" name="template" value="upload" class="hidden peer">
+          <label for="upload" class="inline-flex items-center justify-between w-full p-4 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-indigo-600 peer-checked:text-indigo-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 shadow-sm text-gray-300">
+              Upload file
+          </label>
+        </li>
+        <li>
+          <input v-model="form.template" disabled type="radio" id="parse-web" name="template" value="parse-web" class="hidden peer">
+          <label for="parse-web" class="inline-flex items-center justify-between w-full p-4 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-indigo-600 peer-checked:text-indigo-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 shadow-sm text-gray-300">
+              Parse webpage                
+          </label>
+        </li>        
+      </ul>
+    </div>    
+
   </form>
   <div class="py-6 flex justify-end gap-x-4">        
     <button v-if="!loading" @click="$router.push('/functions')" type="button" class="inline-flex rounded-md items-center px-4 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50">              

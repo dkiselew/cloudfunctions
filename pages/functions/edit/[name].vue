@@ -7,7 +7,6 @@
     </div>
     <template v-if="!loading">
       
-
       <!-- Navigation -->
       <div class="mb-4">
         <FunctionToolbar :saving="saving" :functionUrl="functionUrl" @save="save">          
@@ -16,20 +15,12 @@
       </div>              
 
       <!-- Code -->
-      <div v-show="tab === 'code'" class="grow" style="min-height: 0; overflow-y: scroll;">      
-        <div class="sm:col-span-4 mb-6">                
-          <Codemirror          
-            v-model="form.code"
-            placeholder="Code goes here..."
-            :style="{ height: 'auto' }"
-            :autofocus="true"
-            :indent-with-tab="true"
-            :tab-size="2"
-            :extensions="codemirorExtensions"          
-          />        
-        </div>              
-      </div>    
+      <FunctionCode 
+        v-show="tab === 'code'"
+        v-model:code="form.code"
+      />   
 
+      <!-- Run -->
       <FunctionPlayground 
         v-show="tab === 'run'" 
         :functionUrl="functionUrl"        
@@ -37,30 +28,31 @@
         @executed="$refs.logs.refresh()"       
       />
 
+      <!-- Logs -->
       <FunctionLogs 
         ref="logs"
         v-show="tab === 'logs'" 
         :functionName="func.name"        
       />
 
+      <!-- Dependencies -->
       <FunctionDependencies
         v-show="tab === 'dependencies'"         
         v-model:dependencies="form.dependencies"
       />
 
+      <!-- Settings -->
       <FunctionSettings 
         v-show="tab === 'settings'" 
         v-model:path="form.path"
         :name="func.name"
       />
-
+      
     </template>    
   </div>
 </template>
 
 <script>
-import { Codemirror } from 'vue-codemirror'
-import { javascript } from '@codemirror/lang-javascript'
 import Spinner from '~/components/Spinner.vue';
 import FunctionTabs from '~/components/FunctionTabs.vue';
 import FunctionToolbar from '~/components/FunctionToolbar.vue';
@@ -84,8 +76,7 @@ export default {
      }
   },
   components: {
-    Spinner,    
-    Codemirror,
+    Spinner,        
     FunctionTabs,
     FunctionToolbar,
     FunctionLogs,
@@ -93,8 +84,7 @@ export default {
     FunctionDependencies,
   },
   data() {
-    return {
-      codemirorExtensions: [javascript()],
+    return {      
       form: {
         path: '',
         code: '',

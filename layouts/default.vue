@@ -1,7 +1,7 @@
 <template>    
   <div class="flex h-full h-screen">
     <!-- Navigation -->
-    <div class="flex flex-col bg-gray-100 w-1/6">
+    <div class="flex flex-col bg-gray-100 w-60">
       <div class="p-4">
         <h2 class="text-xl font-bold">Project</h2>
       </div>
