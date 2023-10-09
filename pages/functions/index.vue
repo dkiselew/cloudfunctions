@@ -9,17 +9,17 @@
         <li v-for="func in functions" :key="func.name" class="mb-2 flex gap-x-2">
           <NuxtLink :to="`/functions/edit/${func.name}`" class="w-1/4 p-4 rounded-lg bg-white ring-1 ring-inset ring-gray-300 shadow-sm flex justify-between hover:bg-gray-50">
             <div>{{ func.path }} </div>
-            <div class="text-slate-400">{{ func.env }}</div>            
+            <div class="text-slate-400">{{ func.env }}</div>
           </NuxtLink>
           <a :href="`${appConfig.functionsDomain}${func.path}`" target="_blank" class="p-4 bg-gray-100 rounded-lg hover:bg-gray-200">
             <ArrowTopRightOnSquareIcon class="h-5 w-5" aria-hidden="true" /></a>
-        </li>                
+        </li>
       </ul>
-      <button @click="$router.push('/functions/new')" type="button" class="inline-flex items-center rounded-md bg-white px-4 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">        
+      <button @click="$router.push('/functions/new')" type="button" class="inline-flex items-center rounded-md bg-white px-4 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
         <PlusIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
         New Function
       </button>
-    </div>    
+    </div>
   </div>
 </template>
 
@@ -35,26 +35,29 @@ export default {
     Spinner,
   },
   setup() {
+    definePageMeta({
+      middleware: ['auth'],
+    });
     const appConfig = useAppConfig();
-    return { 
+    return {
       appConfig
      }
   },
   data() {
     return {
       functions: [],
-      loading: false,      
+      loading: false,
     }
   },
-  mounted() {    
+  mounted() {
      this.getFunctions();
   },
   methods: {
     async getFunctions() {
       this.loading = true;
-      this.functions = await $fetch('/api/functions');       
+      this.functions = await $fetch('/api/functions');
       this.loading = false;
-    },    
+    },
   }
 }
 </script>

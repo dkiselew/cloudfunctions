@@ -1,11 +1,12 @@
 # Magic Backend UI
 
 UI for Fission Serverless.
+
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Setup
 
-Make sure to install the dependencies:
+1) Make sure to install the dependencies:
 
 ```bash
 # yarn
@@ -17,6 +18,10 @@ npm install
 # pnpm
 pnpm install
 ```
+
+2) Add Kubernetes cluster config to root folder with name `fission-k8s-kubeconfig.yml`
+
+3) Add OpenAI api key to .env file with key `OPENAI_KEY`
 
 ## Development Server
 

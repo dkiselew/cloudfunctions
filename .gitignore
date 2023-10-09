@@ -7,6 +7,7 @@ node_modules
 .env
 dist
 .DS_Store
+fission-k8s-kubeconfig.yml
 
 
 # Ignore DevSpace cache and log folder
