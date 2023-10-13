@@ -18,6 +18,7 @@
   "dependencies": {
     "@codemirror/lang-javascript": "^6.1.9",
     "@heroicons/vue": "^2.0.18",
+    "@prisma/client": "^5.4.1",
     "codemirror": "^6.0.1",
     "dotenv": "^16.3.1",
     "jsonwebtoken": "^9.0.2",

@@ -1,10 +1,5 @@
 export async function getProjectsByUserId(client, userId) {
-  const query = `
-  SELECT projects.*
-  FROM users
-  INNER JOIN users_projects ON users.id = users_projects.user_id
-  INNER JOIN projects ON users_projects.project_id = projects.id
-  WHERE users.id = $1;`
+  const query = `SELECT * FROM projects WHERE user_id = $1;`
   const values = [userId];
   const result = await client.query(query, values);
 
@@ -13,4 +8,8 @@ export async function getProjectsByUserId(client, userId) {
   } else {
     return null;
   }
+}
+
+export async function createProject(client) {
+
 }

@@ -43,18 +43,19 @@
 <script setup>
 definePageMeta({
   layout: 'visitor',
+  middleware: defineNuxtRouteMiddleware((to, from) => {
+    const authUser = useCookie('authUser');
+    console.log(authUser.value);
+    if (authUser.value) {
+      return navigateTo('/functions');
+    }
+  }),
 });
 
 const email = ref('dkiselew@gmail.com');
 const password = ref('12345');
 const loading = ref(false);
 const error = ref(false);
-const authUser = useCookie('authUser');
-const redirectTo = '/functions';
-
-if (authUser.value) {
-  navigateTo(redirectTo);
-}
 
 const login = async () => {
   const payload = {
@@ -65,7 +66,7 @@ const login = async () => {
 
   try {
     await $fetch('/api/login', { method: 'post', body: payload });
-    navigateTo(redirectTo);
+    navigateTo('/functions');
   } catch (e) {
     error.value = true;
   } finally {

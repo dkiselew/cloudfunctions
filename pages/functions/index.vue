@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1 class="text-2xl font-bold mb-4">Functions</h1>
+    <FunctionsList />
+    <!-- <h1 class="text-2xl font-bold mb-4">Functions</h1>
     <div v-if="loading">
       <Spinner size="lg" />
     </div>
@@ -19,7 +20,7 @@
         <PlusIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
         New Function
       </button>
-    </div>
+    </div> -->
   </div>
 </template>
 

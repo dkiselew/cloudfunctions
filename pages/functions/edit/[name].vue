@@ -1,55 +1,60 @@
-<template>  
-  <div class="flex flex-col h-full" style="min-height: 0;">
-    <div v-if="loading" class="flex h-full justify-items-center items-center">      
-      <div class="w-full text-center">
-        <Spinner size="lg" />
-      </div>      
+<template>
+  <div class="flex">
+    <FunctionsList />
+    <div class="w-full ml-8">
+      <div class="flex flex-col h-full" style="min-height: 0;">
+      <div v-if="loading" class="flex h-full justify-items-center items-center">
+        <div class="w-full text-center">
+          <Spinner size="lg" />
+        </div>
+      </div>
+      <template v-if="!loading">
+
+        <!-- Navigation -->
+        <div class="mb-4">
+          <FunctionToolbar :saving="saving" :functionUrl="functionUrl" @save="save">
+            <FunctionTabs @selected="(tab) => this.tab = tab" :tab="tab" class="inline-flex" />
+          </FunctionToolbar>
+        </div>
+
+        <!-- Code -->
+        <FunctionCode
+          v-show="tab === 'code'"
+          v-model:code="form.code"
+        />
+
+        <!-- Run -->
+        <FunctionPlayground
+          v-show="tab === 'run'"
+          :functionUrl="functionUrl"
+          :saving="saving"
+          @executed="$refs.logs.refresh()"
+        />
+
+        <!-- Logs -->
+        <FunctionLogs
+          ref="logs"
+          v-show="tab === 'logs'"
+          :functionName="func.name"
+        />
+
+        <!-- Dependencies -->
+        <FunctionDependencies
+          v-show="tab === 'dependencies'"
+          v-model:dependencies="form.dependencies"
+        />
+
+        <!-- Settings -->
+        <FunctionSettings
+          v-show="tab === 'settings'"
+          v-model:path="form.path"
+          :name="func.name"
+        />
+
+      </template>
     </div>
-    <template v-if="!loading">
-      
-      <!-- Navigation -->
-      <div class="mb-4">
-        <FunctionToolbar :saving="saving" :functionUrl="functionUrl" @save="save">          
-          <FunctionTabs @selected="(tab) => this.tab = tab" :tab="tab" class="inline-flex" />                
-        </FunctionToolbar>        
-      </div>              
-
-      <!-- Code -->
-      <FunctionCode 
-        v-show="tab === 'code'"
-        v-model:code="form.code"
-      />   
-
-      <!-- Run -->
-      <FunctionPlayground 
-        v-show="tab === 'run'" 
-        :functionUrl="functionUrl"        
-        :saving="saving" 
-        @executed="$refs.logs.refresh()"       
-      />
-
-      <!-- Logs -->
-      <FunctionLogs 
-        ref="logs"
-        v-show="tab === 'logs'" 
-        :functionName="func.name"        
-      />
-
-      <!-- Dependencies -->
-      <FunctionDependencies
-        v-show="tab === 'dependencies'"         
-        v-model:dependencies="form.dependencies"
-      />
-
-      <!-- Settings -->
-      <FunctionSettings 
-        v-show="tab === 'settings'" 
-        v-model:path="form.path"
-        :name="func.name"
-      />
-      
-    </template>    
   </div>
+</div>
 </template>
 
 <script>
@@ -62,21 +67,21 @@ import FunctionDependencies from '~/components/FunctionDependencies.vue';
 
 /**
  * Deploy info and logs:
- * 
- * fission package list 
+ *
+ * fission package list
  * fission package info --name myproject-cats-b0422ee9-7522-4e22-86c5-c83f23554e57
  */
 export default {
   setup() {
     const appConfig = useAppConfig();
     const toast = useToast();
-    return { 
+    return {
       appConfig,
       toast,
      }
   },
   components: {
-    Spinner,        
+    Spinner,
     FunctionTabs,
     FunctionToolbar,
     FunctionLogs,
@@ -84,7 +89,7 @@ export default {
     FunctionDependencies,
   },
   data() {
-    return {      
+    return {
       form: {
         path: '',
         code: '',
@@ -98,7 +103,7 @@ export default {
       tab: 'code',
     }
   },
-  mounted() {    
+  mounted() {
      this.getFunction();
   },
   computed: {
@@ -110,7 +115,7 @@ export default {
     async getFunction() {
       this.loading = true;
       try {
-        this.func = await $fetch(`/api/functions/${this.$route.params.name}`);       
+        this.func = await $fetch(`/api/functions/${this.$route.params.name}`);
         const { path, code, dependencies } = this.func;
         this.form = { path, code, dependencies };
       } catch (e) {
@@ -118,31 +123,31 @@ export default {
         throw createError({ statusCode: 404, statusMessage: 'Function Not Found', fatal: true })
       } finally {
         this.loading = false;
-      }                  
-    },    
+      }
+    },
     autosave() {
       // save code to file after 3 seconds user stops typing
     },
     async save() {
-      this.saving = true;            
+      this.saving = true;
       try {
         await $fetch(`/api/functions/${this.$route.params.name}`, {
           method: 'post',
           body: this.form,
-        });        
+        });
         this.updateFunctionFromForm();
         this.toast.add({ title: "Function saved", icon: 'i-heroicons-check-circle' });
-      } catch (e) {        
+      } catch (e) {
         this.toast.add({ title: "Function hasn't been saved", icon: 'i-heroicons-x-circle', color: 'red' });
         console.log(e);
       } finally {
-        this.saving = false;  
-      }           
+        this.saving = false;
+      }
     },
     updateFunctionFromForm() {
       this.func.path = this.form.path;
-    },        
-  },  
+    },
+  },
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-full h-screen">
     <!-- Navigation -->
-    <div class="flex flex-col bg-gray-100 w-60 pt-4">
+    <div class="flex flex-col w-48 pt-4">
       <div class="px-4">
         <CompanyLogo />
       </div>
@@ -11,19 +11,19 @@
       <nav class="flex-grow">
         <ul class="flex flex-col space-y-2 p-4">
           <li>
-            <NuxtLink to="/functions" active-class="bg-gray-300" class="flex items-center py-2 px-4 rounded-md hover:bg-gray-300">
+            <NuxtLink to="/functions" active-class="bg-gray-50 text-primary-600" class="flex items-center py-2 px-4 rounded-md font-medium hover:bg-gray-50">
               <BoltIcon class="h-6 w-6 mr-2" />
               <span>Functions</span>
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/database" active-class="bg-gray-300" class="flex items-center py-2 px-4 rounded-md hover:bg-gray-300">
+            <NuxtLink to="/database" active-class="bg-gray-50 text-primary-600" class="flex items-center py-2 px-4 rounded-md font-medium hover:bg-gray-50">
               <CircleStackIcon class="h-6 w-6 mr-2" />
               <span>Database</span>
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/settings" active-class="bg-gray-300" class="flex items-center py-2 px-4 rounded-md hover:bg-gray-300">
+            <NuxtLink to="/settings" active-class="bg-gray-50 text-primary-600" class="flex items-center py-2 px-4 rounded-md font-medium hover:bg-gray-50">
               <AdjustmentsHorizontalIcon class="h-6 w-6 mr-2" />
               <span>Settings</span>
             </NuxtLink>
